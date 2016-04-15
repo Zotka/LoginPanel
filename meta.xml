@@ -1,0 +1,21 @@
+<meta> 
+    <info author="AriosJentu" name="LoginPanel" version="Video" type="script"/>
+
+    <!-- Основные файлы -->
+    <script src="client.lua" type="client"/>
+    <file src="images/pane.png"/>
+
+    <!-- Дизайн  -->
+    <file src="images/bottom.png"/>
+    <file src="images/animation.png"/>
+    <file src="images/logo.png"/>
+    <file src="images/round.png"/>
+    <file src="images/shadow.png"/>
+    <file src="images/shadow_bottom.png"/>
+    <file src="images/top.png"/>
+
+    <!-- Library Fonts -->
+    <file src="fonts/Roboto-Bold.ttf"/>
+    <file src="fonts/Roboto-Medium.ttf"/>
+    <file src="fonts/Roboto-Regular.ttf"/>
+</meta>
