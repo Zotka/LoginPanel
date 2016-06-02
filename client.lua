@@ -245,3 +245,18 @@ addEventHandler("onClientGUIMouseUp", root, function()
 		guiLabelSetColor(RegisterButton, 110, 71, 30)
 	end
 end)
+
+function visibleLoginPanel(bool)
+	showCursor(bool)
+	guiSetVisible(BackShadow, bool)
+	showPlayerHudComponent("all", not bool)
+	showChat(not bool)
+	if bool then startLoginAnimation(math.random(3))
+	else stopLoginAnimation() end
+end
+
+bindKey("o", "down", function()
+	visibleLoginPanel(not guiGetVisible(BackShadow))
+end)
+
+guiSetVisible(BackShadow, false)

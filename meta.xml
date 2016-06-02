@@ -3,6 +3,7 @@
 
     <!-- Основные файлы -->
     <script src="client.lua" type="client"/>
+    <script src="camera.lua" type="client"/>
     <file src="images/pane.png"/>
 
     <!-- Дизайн  -->

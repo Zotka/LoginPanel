@@ -396,3 +396,20 @@ addEventHandler("onClientGUIMouseUp", root, function()
 	end
 
 end)
+
+--Функция для открытия/закрытия панели логина
+function visibleLoginPanel(bool) 
+	showCursor(bool) --Показать/скрыть курсор
+	guiSetVisible(BackShadow, bool) --Показать/скрыть главный элемент окна логина
+	showPlayerHudComponent("all", not bool) --Скрыть/показать худ игроку
+	showChat(not bool) --Скрыть/показать чат игроку
+	if bool then startLoginAnimation(math.random(3)) --Если панель открывается, то начать рандомную анимацию из 3х существующих
+	else stopLoginAnimation() end --Иначе закрыть анимацию
+end
+
+bindKey("o", "down", function() --Создать бинд на кнопку О для открытия или закрытия логин панели
+	visibleLoginPanel(not guiGetVisible(BackShadow)) --Открыть/закрыть логин панель в зависимости от её видимости - если её не видно, то открыть, иначе - закрыть
+end)
+
+--Сначала просто закрыть окно
+guiSetVisible(BackShadow, false)
