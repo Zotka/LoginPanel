@@ -39,8 +39,8 @@ function resetCoordinates(number)
 end
 
 function startLoginAnimation(number)
-	fadeCamera(false, 2)
 	if isTimer(ATimer) then return false end
+	fadeCamera(false, 2)
 
 	ATimer = setTimer(function()
 		Animation = number

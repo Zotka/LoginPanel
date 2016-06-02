@@ -19,8 +19,8 @@ local groove = {["x"] = 2379, ["y"] = -1658, ["z"] = 14}
 
 --Функции для начала и окончания анимации
 function startLoginAnimation(number) --Номер анимации будет как аргумент
-	fadeCamera(false, 2) --закрыть камеру
 	if isTimer(ATimer) then return false end --Если таймер уже запущен, то закончить действия
+	fadeCamera(false, 2) --закрыть камеру
 
 	ATimer = setTimer(function()
 		Animation = number --Number (Номер анимации) - начать выбранную анимацию
@@ -32,6 +32,8 @@ end
 
 function stopLoginAnimation()
 	fadeCamera(false, 2) --Закрыть камеру
+	if isTimer(ATimer) then killTimer(ATimer) end --И если есть таймер, убиваем его
+
 	ATimer = setTimer(function()  --И через секунду
 		Animation = 0  -- 0 - остановить анимацию
 		setCameraTarget(localPlayer) --Поставить камеру позади игрока
