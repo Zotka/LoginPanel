@@ -351,7 +351,7 @@ guiSetFont(RegisterButton, Bold) --Установим шрифт
 guiLabelSetColor(RegisterButton, 110, 71, 30) --Установим цвет для текста
 
 --Создадим обычный информационный лейбл
-local InfoLabel = guiCreateLabel(113, 77-55, 146, 30, "Нет аккаунта?", false, BottomSide)
+local InfoLabel = guiCreateLabel(0, 77-55, 369, 30, "Нет аккаунта?", false, BottomSide)
 guiLabelSetVerticalAlign(InfoLabel, "center") --Отцентровываем относительно высоты
 guiLabelSetHorizontalAlign(InfoLabel, "center") --Отцентровываем относительно длины
 guiSetFont(InfoLabel, Regular14) --Установим шрифт
@@ -407,9 +407,51 @@ function visibleLoginPanel(bool)
 	else stopLoginAnimation() end --Иначе закрыть анимацию
 end
 
-bindKey("o", "down", function() --Создать бинд на кнопку О для открытия или закрытия логин панели
+--[[bindKey("o", "down", function() --Создать бинд на кнопку О для открытия или закрытия логин панели
 	visibleLoginPanel(not guiGetVisible(BackShadow)) --Открыть/закрыть логин панель в зависимости от её видимости - если её не видно, то открыть, иначе - закрыть
-end)
+end)]]
 
 --Сначала просто закрыть окно
 guiSetVisible(BackShadow, false)
+
+--Создаём функцию по показу ошибки при авторизации
+function showLoginError(title) --Аргументом является текст ошибки
+	guiSetText(InfoLabel, title) --Заменим текст инфо панельки
+	setTimer(function() --И через 2 секунды
+		guiSetText(InfoLabel, "Нет аккаунта?") --вернём текст обратно
+	end, 2000, 1) --
+end
+
+
+--СОбытие по нажатию на кнопку авторизации и регистрации
+addEventHandler("onClientGUIClick", root, function()
+
+	--Если мы нажимаем на элементы, принадлежащие клавише входа
+	if source == ButRound1 or source == ButRound2 or source == ButCenter then
+		--То отправляем триггер авторизации на сервер локальному игроку
+		--Аргументами являются игрок, логин, пароль и тип триггера. В данном случае триггер авторизации
+		triggerServerEvent("loginPlayer", localPlayer, localPlayer, guiGetText(LoginEdit), guiGetText(PassEdit), "Login")
+
+	--По нажатию на кнопку регистрации
+	elseif source == RegisterButton then
+
+		--Отправляем тот же триггер, только аргументом типа является регистрация
+		triggerServerEvent("loginPlayer", localPlayer, localPlayer, guiGetText(LoginEdit), guiGetText(PassEdit), "Register")
+
+	end
+
+end)
+
+
+--Добавим серверно отправленные триггеры
+addEvent("hideLogin", true) --Скрытие логин панели
+addEventHandler("hideLogin", root, function() visibleLoginPanel(false) end) --Функцией скрываем логин панель
+
+--Показать логин панель
+addEvent("showLogin", true)
+addEventHandler("showLogin", root, function() visibleLoginPanel(true) end) --Функцией показываем
+
+--Событие ошибки авторизации
+addEvent("errorLogin", true)
+--Аргументом функции события является текст ошибки
+addEventHandler("errorLogin", root, function(title) showLoginError(title) end) --Показываем ошибку

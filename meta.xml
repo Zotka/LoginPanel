@@ -2,8 +2,9 @@
     <info author="AriosJentu" name="LoginPanel" version="Video" type="script"/>
 
     <!-- Основные файлы -->
-    <script src="client.lua" type="client"/>
     <script src="camera.lua" type="client"/>
+    <script src="client.lua" type="client"/>
+    <script src="server.lua" type="server"/>
     <file src="images/pane.png"/>
 
     <!-- Дизайн  -->

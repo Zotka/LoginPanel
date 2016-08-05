@@ -218,7 +218,7 @@ guiLabelSetHorizontalAlign(RegisterButton, "center")
 guiSetFont(RegisterButton, Bold)
 guiLabelSetColor(RegisterButton, 110, 71, 30)
 
-local InfoLabel = guiCreateLabel(113, 77-55, 146, 30, "Нет аккаунта?", false, BottomSide)
+local InfoLabel = guiCreateLabel(0, 77-55, 369, 30, "Нет аккаунта?", false, BottomSide)
 guiLabelSetVerticalAlign(InfoLabel, "center")
 guiLabelSetHorizontalAlign(InfoLabel, "center")
 guiSetFont(InfoLabel, Regular14)
@@ -251,12 +251,47 @@ function visibleLoginPanel(bool)
 	guiSetVisible(BackShadow, bool)
 	showPlayerHudComponent("all", not bool)
 	showChat(not bool)
-	if bool then startLoginAnimation(math.random(3))
-	else stopLoginAnimation() end
+	if bool then
+		startLoginAnimation(math.random(3))
+	else
+		stopLoginAnimation()
+	end
 end
 
-bindKey("o", "down", function()
-	visibleLoginPanel(not guiGetVisible(BackShadow))
-end)
+--[[bindKey("o", "down", function()
+	visibleLoginPanel( not guiGetVisible(BackShadow) )
+end)]]
 
 guiSetVisible(BackShadow, false)
+
+function showLoginError(title)
+	guiSetText(InfoLabel, title)
+	setTimer(function()
+		guiSetText(InfoLabel, "Нет аккаунта?")
+	end, 2000, 1)
+end
+
+
+
+addEventHandler("onClientGUIClick", root, function()
+
+	if source == ButRound1 or source == ButRound2 or source == ButCenter then
+
+		triggerServerEvent("loginPlayer", localPlayer, localPlayer, guiGetText(LoginEdit), guiGetText(PassEdit), "Login")
+
+	elseif source == RegisterButton then
+
+		triggerServerEvent("loginPlayer", localPlayer, localPlayer, guiGetText(LoginEdit), guiGetText(PassEdit), "Register")
+
+	end
+
+end)
+
+addEvent("hideLogin", true)
+addEventHandler("hideLogin", root, function() visibleLoginPanel(false) end)
+
+addEvent("showLogin", true)
+addEventHandler("showLogin", root, function() visibleLoginPanel(true) end)
+
+addEvent("errorLogin", true)
+addEventHandler("errorLogin", root, function(title) showLoginError(title) end)
